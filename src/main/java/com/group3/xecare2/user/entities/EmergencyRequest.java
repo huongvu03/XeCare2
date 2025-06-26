@@ -13,10 +13,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Emergency_Requests")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class EmergencyRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +49,13 @@ public class EmergencyRequest {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+        if (this.status == null) {
+            this.status = EmergencyStatus.PENDING;
+        }
+    }
 }
