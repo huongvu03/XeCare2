@@ -3,6 +3,7 @@ package com.group3.xecare2.user.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.group3.xecare2.enums.AccountType;
 import com.group3.xecare2.garage.entities.Garage;
 
 import jakarta.persistence.CascadeType;
@@ -56,7 +57,8 @@ public class User {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
     
-    
+    @Column(name = "account_type", nullable = false)
+    private AccountType role = AccountType.user;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Garage> garages;
     
@@ -64,4 +66,6 @@ public class User {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
+    
+    
 }

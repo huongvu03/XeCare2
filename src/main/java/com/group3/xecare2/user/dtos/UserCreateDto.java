@@ -18,4 +18,6 @@ public class UserCreateDto {
 	 private String email;
 	 private String password;
 	 private LocalDateTime createdAt = LocalDateTime.now();
+	 private String phone;
+	 private String address;
 }

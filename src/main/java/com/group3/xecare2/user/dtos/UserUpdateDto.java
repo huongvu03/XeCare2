@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserUpdateDto {
 
-	private Integer id;
 	private String name;
 	private String email;
-	private String password;
 	private String phone;
 	private String address;
-	private String imageUrl;
 
 }

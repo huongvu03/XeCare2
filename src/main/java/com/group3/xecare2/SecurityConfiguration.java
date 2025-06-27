@@ -1,5 +1,6 @@
 package com.group3.xecare2;
 
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.group3.xecare2.security.AppUserDetailsService;
-import com.group3.xecare2.user.mappers.UserMapper;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration implements WebMvcConfigurer {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -36,9 +38,10 @@ public class SecurityConfiguration {
 						// OpenAPI and Swagger UI
 						"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
 
-						"/apis/v1/**", "/apis/test/**", "/xecare2/**"
+						"/apis/v1/**", "/apis/test/**", "/xecare2/**",
 
 						// user
+						"/uploads/**"
 		
 						// Garage
 		
@@ -78,4 +81,12 @@ public class SecurityConfiguration {
 		authProvider.setPasswordEncoder(getPasswordEncoder());
 		return new ProviderManager(authProvider);
 	}
+	
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		 String uploadDir = Paths.get("uploads").toAbsolutePath().toUri().toString();
+
+	        registry.addResourceHandler("/uploads/**")
+	                .addResourceLocations(uploadDir);
+    }
 }
