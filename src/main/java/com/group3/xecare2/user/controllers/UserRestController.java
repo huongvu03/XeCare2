@@ -25,7 +25,6 @@ import com.group3.xecare2.user.mappers.UserMapper;
 import com.group3.xecare2.user.services.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping({ "/apis/v1/users" })
 public class UserRestController {
 
