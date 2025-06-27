@@ -28,7 +28,7 @@ import com.group3.xecare2.user.entities.User;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/garage")
+@RequestMapping("/apis/garage")
 public class GarageController {
 
     @Autowired
@@ -50,9 +50,11 @@ public class GarageController {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
             // Trả về lỗi validation
+        	 e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
             // Trả về lỗi server
+        	e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -62,7 +64,7 @@ public class GarageController {
      * PUT /api/garage/{id}
      */
     @PutMapping("/{id}")
-    public ResponseEntity<GarageResponseDto> updateGarage(@PathVariable Long id, 
+    public ResponseEntity<GarageResponseDto> updateGarage(@PathVariable("id") Long id, 
                                                          @Valid @RequestBody GarageUpdateDto updateDto) {
         try {
             // Lấy thông tin user hiện tại từ security context
@@ -86,7 +88,7 @@ public class GarageController {
      * GET /api/garage/{id}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<GarageResponseDto> getGarageById(@PathVariable Long id) {
+    public ResponseEntity<GarageResponseDto> getGarageById(@PathVariable("id") Long id) {
         try {
             GarageResponseDto response = garageService.getGarageById(id);
             return ResponseEntity.ok(response);
@@ -119,7 +121,7 @@ public class GarageController {
      * GET /api/garage/status/{status}
      */
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<GarageResponseDto>> getGaragesByStatus(@PathVariable String status) {
+    public ResponseEntity<List<GarageResponseDto>> getGaragesByStatus(@PathVariable("status") String status) {
         try {
             List<GarageResponseDto> response = garageService.getGaragesByStatus(status);
             return ResponseEntity.ok(response);
@@ -177,7 +179,7 @@ public class GarageController {
      * DELETE /api/garage/{id}
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGarage(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteGarage(@PathVariable("id") Long id) {
         try {
             // Lấy thông tin user hiện tại từ security context
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.group3.xecare2.security.AppUserDetailsService;
+import com.group3.xecare2.security.AuthTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +31,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	@Autowired
+	private AuthTokenFilter authTokenFilter;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,14 +45,15 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 						"/apis/v1/**", "/apis/test/**", "/xecare2/**",
 
 						// user
-						"/uploads/**",
+						"/uploads/**"
 
 						// Garage
-						"/api/garage/**"
+						//"/api/garage/**"
 
 				// admin
 
-				).permitAll().anyRequest().authenticated());
+				).permitAll().anyRequest().authenticated())
+				.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
