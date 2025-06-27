@@ -41,11 +41,12 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 						"/apis/v1/**", "/apis/test/**", "/xecare2/**",
 
 						// user
-						"/uploads/**"
-		
+						"/uploads/**",
+
 						// Garage
-		
-						// admin
+						"/api/garage/**"
+
+				// admin
 
 				).permitAll().anyRequest().authenticated());
 
@@ -81,12 +82,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 		authProvider.setPasswordEncoder(getPasswordEncoder());
 		return new ProviderManager(authProvider);
 	}
-	
-	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		 String uploadDir = Paths.get("uploads").toAbsolutePath().toUri().toString();
 
-	        registry.addResourceHandler("/uploads/**")
-	                .addResourceLocations(uploadDir);
-    }
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		String uploadDir = Paths.get("uploads").toAbsolutePath().toUri().toString();
+
+		registry.addResourceHandler("/uploads/**").addResourceLocations(uploadDir);
+	}
 }
