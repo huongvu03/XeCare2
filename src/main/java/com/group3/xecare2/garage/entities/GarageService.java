@@ -12,9 +12,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Garage_Services", uniqueConstraints = @UniqueConstraint(columnNames = {"garage_id", "service_id"}))
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class GarageService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +38,5 @@ public class GarageService {
 
     private BigDecimal basePrice;
     private Integer estimatedTimeMinutes;
+    private Boolean isActive = true;
 }

@@ -8,10 +8,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Reward_Points")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RewardPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +33,11 @@ public class RewardPoint {
     private Integer points;
     private String reason;
     private LocalDateTime awardedAt = LocalDateTime.now();
+    //Hoang
+    @PrePersist
+    protected void onCreate() {
+        if (this.awardedAt == null) {
+            this.awardedAt = LocalDateTime.now();
+        }
+    }
 }

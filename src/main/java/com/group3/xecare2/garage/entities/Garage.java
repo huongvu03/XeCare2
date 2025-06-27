@@ -17,10 +17,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Garages")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Garage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,4 +61,17 @@ public class Garage {
 
     @OneToMany(mappedBy = "garage", cascade = CascadeType.ALL)
     private List<GarageService> services;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+        if (this.isVerified == null) {
+            this.isVerified = false;
+        }
+        if (this.status == null) {
+            this.status = GarageStatus.PENDING;
+        }
+    }
 }
