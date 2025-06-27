@@ -48,7 +48,7 @@ public class EmergencyQuote {
 
     private String notes;
     private LocalDateTime quotedAt = LocalDateTime.now();
-
+    //Hoang
     @PrePersist
     protected void onCreate() {
         if (this.quotedAt == null) {

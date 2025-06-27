@@ -33,7 +33,7 @@ public class RewardPoint {
     private Integer points;
     private String reason;
     private LocalDateTime awardedAt = LocalDateTime.now();
-
+    //Hoang
     @PrePersist
     protected void onCreate() {
         if (this.awardedAt == null) {

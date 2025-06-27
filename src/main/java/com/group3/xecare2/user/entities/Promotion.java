@@ -31,7 +31,8 @@ public class Promotion {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Boolean isActive = true;
-
+    
+    //Hoang
     @PrePersist
     protected void onCreate() {
         if (this.isActive == null) {

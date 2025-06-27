@@ -48,7 +48,7 @@ public class EmergencyRequest {
     private EmergencyStatus status = EmergencyStatus.PENDING;
 
     private LocalDateTime createdAt = LocalDateTime.now();
-
+    //Hoang
     @PrePersist
     protected void onCreate() {
         if (this.createdAt == null) {

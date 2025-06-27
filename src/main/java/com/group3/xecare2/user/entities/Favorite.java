@@ -37,7 +37,7 @@ public class Favorite {
     private Garage garage;
 
     private LocalDateTime addedAt = LocalDateTime.now();
-
+    // Hoang
     @PrePersist
     protected void onCreate() {
         if (this.addedAt == null) {
