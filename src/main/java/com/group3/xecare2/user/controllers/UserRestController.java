@@ -26,6 +26,7 @@ import com.group3.xecare2.user.services.UserService;
 
 @RestController
 @RequestMapping({ "/apis/v1/users" })
+//@CrossOrigin(origins = "http://localhost:3000")
 public class UserRestController {
 
 	@Autowired
@@ -36,37 +37,21 @@ public class UserRestController {
 		return userService.listAll();
 	}
 	
-	@PostMapping(consumes = "multipart/form-data")
-	public ResponseEntity<User> createUser(
-	    @RequestPart("user") UserCreateDto userCreateDto,
-	    @RequestPart(value = "image", required = false) MultipartFile imageFile
-	) {
-	    try {
-	        // Mã hóa password
-	        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-	        String encodedPassword = encoder.encode(userCreateDto.getPassword());
-	        userCreateDto.setPassword(encodedPassword);
+	@PostMapping
+	public ResponseEntity<User> createUser(@RequestBody UserCreateDto userCreateDto) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encodedPassword = encoder.encode(userCreateDto.getPassword());
+		userCreateDto.setPassword(encodedPassword);
 
-	        User user = new User();
-	        user.setName(userCreateDto.getName());
-	        user.setEmail(userCreateDto.getEmail());
-	        user.setPassword(userCreateDto.getPassword());
-	        user.setPhone(userCreateDto.getPhone());
-	        user.setAddress(userCreateDto.getAddress()); 
-
-	        // Lưu ảnh nếu có
-	        if (imageFile != null && !imageFile.isEmpty()) {
-	            String imageUrl = userService.saveImageToServer(imageFile);
-	            user.setImageUrl(imageUrl);
-	        }
-
-	        // Lưu user
-	        User savedUser = userService.save(user);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-
-	    } catch (IOException | IllegalArgumentException e) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-	    }
+		User user = new User();
+        user.setName(userCreateDto.getName());
+        user.setEmail(userCreateDto.getEmail());
+        user.setPhone(userCreateDto.getPhone());
+        user.setAddress(userCreateDto.getAddress()); 
+        user.setPassword(userCreateDto.getPassword());
+		
+		User savedCustomer = userService.save(user);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
 	}
 	
 	@PutMapping("/{id}")

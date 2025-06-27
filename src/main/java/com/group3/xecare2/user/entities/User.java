@@ -9,6 +9,8 @@ import com.group3.xecare2.garage.entities.Garage;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,7 +59,9 @@ public class User {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
     
+    @Builder.Default
     @Column(name = "account_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private AccountType role = AccountType.user;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Garage> garages;
